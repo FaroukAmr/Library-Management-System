@@ -14,3 +14,11 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL,
     registered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE borrowed_books(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) REFERENCES users(username),
+    ISBN VARCHAR(17) REFERENCES books(ISBN),
+    borrowed_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    return_date TIMESTAMP NOT NULL
+);
