@@ -2,9 +2,11 @@ import '../styles/SignUp.css';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import { AlertColor } from '@mui/material';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
+import SnackBar from './Snackbar';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
@@ -31,6 +33,9 @@ const SignUp = () => {
     confirmPassword: '',
   });
   const [valid, setValid] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [severity, setSeverity] = useState<AlertColor>('success');
+  const [message, setMessage] = useState<string>('');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setErrors({
@@ -60,12 +65,18 @@ const SignUp = () => {
       console.log(response);
 
       if (response.status === 201) {
-        // Handle successful signup
+        setOpen(true);
+        setSeverity('success');
+        setMessage('Successfully registered!');
       } else {
-        // Handle unsuccessful signup
+        setOpen(true);
+        setSeverity('error');
+        setMessage('Something went wrong, please try again.');
       }
-    } catch (error) {
-      console.error('Error during signup:', error);
+    } catch (error: any) {
+      setOpen(true);
+      setSeverity('error');
+      setMessage(error.response.data.errors[0].msg);
     }
   };
 
@@ -166,6 +177,12 @@ const SignUp = () => {
           </Button>
         </form>
       </Paper>
+      <SnackBar
+        open={open}
+        setOpen={setOpen}
+        severity={severity}
+        message={message}
+      />
     </div>
   );
 };
