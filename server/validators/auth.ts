@@ -18,9 +18,23 @@ const emailExists = check('email').custom(async (value) => {
   }
 });
 
+const usernameExists = check('username').custom(async (value) => {
+  const { rows } = await db.query('SELECT * from users WHERE username = $1', [
+    value,
+  ]);
+
+  if (rows.length) {
+    throw new Error('Username already exists.');
+  }
+});
+
 const email = check('email')
   .isEmail()
   .withMessage('Password must be a valid email');
+
+const username = check('username')
+  .isLength({ min: 3 })
+  .withMessage('Username must be at least 3 chars long');
 
 const loginFieldsCheck = check('email').custom(async (email, { req }) => {
   const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -34,5 +48,11 @@ const loginFieldsCheck = check('email').custom(async (email, { req }) => {
   req.user = user.rows[0];
 });
 
-export const registerValidation = [email, password, emailExists];
+export const registerValidation = [
+  email,
+  password,
+  username,
+  usernameExists,
+  emailExists,
+];
 export const loginValidation = [loginFieldsCheck];
