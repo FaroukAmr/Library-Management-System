@@ -7,6 +7,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 type FormState = {
   username: string;
@@ -46,9 +47,26 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission here
+    if (!valid) {
+      return;
+    }
+    try {
+      const response = await axios.post(
+        'http://localhost:9000/users/register',
+        form
+      );
+      console.log(response);
+
+      if (response.status === 201) {
+        // Handle successful signup
+      } else {
+        // Handle unsuccessful signup
+      }
+    } catch (error) {
+      console.error('Error during signup:', error);
+    }
   };
 
   const validateForm = (updatedForm: FormState) => {
@@ -83,7 +101,6 @@ const SignUp = () => {
     }
 
     if (password != confirmPassword) {
-      console.log(password, confirmPassword);
       setErrors((errors) => ({
         ...errors,
         confirmPassword: 'Confirm password should match password',
