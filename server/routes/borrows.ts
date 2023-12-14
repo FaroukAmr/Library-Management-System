@@ -1,5 +1,6 @@
 import {
   borrowBook,
+  getAllBookBorrowers,
   getAllBorrowedBooks,
   getBorrowedBookById,
   returnBook,
@@ -16,6 +17,8 @@ router.get('/:id', userAuth, validate, getBorrowedBookById);
 router.get('/', userAuth, validate, getAllBorrowedBooks);
 
 router.post('/', userAuth, borrowsValidation, validate, borrowBook);
+
+router.post('/:id', userAuth, validate, getAllBookBorrowers);
 
 router.patch('/', userAuth, returnValidation, validate, returnBook);
 

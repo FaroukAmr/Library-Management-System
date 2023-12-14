@@ -48,6 +48,28 @@ export async function getBorrowedBookById(req: Request, res: Response) {
   }
 }
 
+export async function getAllBookBorrowers(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const allBorrowers = await pool.query(
+      `
+      SELECT u.username, u.email, bb.borrowed_date, bb.expected_return_date 
+      FROM borrowed_books bb
+      JOIN users u ON bb.username = u.username
+      WHERE bb.isbn = $1 AND bb.returned = false
+      ORDER BY bb.borrowed_date DESC, u.username ASC
+    `,
+      [id]
+    );
+    res.json(allBorrowers.rows);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+}
+
 export async function borrowBook(req: Request, res: Response) {
   try {
     const { isbn } = req.body;
@@ -69,7 +91,6 @@ export async function borrowBook(req: Request, res: Response) {
     res.json(newBorrow.rows[0]);
   } catch (err: any) {
     await pool.query('ROLLBACK');
-    console.log(err);
     res.status(500).json({
       success: false,
       error: err.message,

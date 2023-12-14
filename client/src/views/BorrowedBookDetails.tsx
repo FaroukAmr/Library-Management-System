@@ -44,7 +44,6 @@ export const BorrowedBooksDetails = () => {
       });
       navigate('/my-books');
     } catch (error: any) {
-      console.log(error);
       setMessage(error.response.data.errors[0].msg);
       setOpen(true);
     } finally {

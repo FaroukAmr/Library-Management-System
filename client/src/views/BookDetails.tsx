@@ -16,6 +16,7 @@ export const BookDetails = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [edit, setEdit] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [borrowers, setBorrowers] = useState<any[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     setLoading(true);
@@ -27,6 +28,7 @@ export const BookDetails = () => {
           setOpen(true);
         } else {
           setBook(response.data);
+          getAllBorrowers();
         }
       })
       .catch((error) => {
@@ -58,6 +60,19 @@ export const BookDetails = () => {
         isbn: id,
       });
       navigate('/my-books');
+    } catch (error: any) {
+      setMessage(error.response.data.errors[0].msg);
+      setOpen(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getAllBorrowers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post('/api/borrows/' + id);
+      setBorrowers(response.data);
     } catch (error: any) {
       setMessage(error.response.data.errors[0].msg);
       setOpen(true);
@@ -107,6 +122,26 @@ export const BookDetails = () => {
               Delete
             </Button>
           </div>
+          <br />
+          <Typography variant="h4">Borrowers</Typography>
+          {borrowers.map((borrower) => {
+            return (
+              <div className="borrower">
+                <Typography variant="h6">
+                  Borrower: {borrower.username}
+                </Typography>
+                <Typography variant="h6">Email: {borrower.email}</Typography>
+                <Typography variant="h6">
+                  Borrow date:{' '}
+                  {new Date(borrower.borrowed_date).toLocaleDateString()}
+                </Typography>
+                <Typography variant="h6">
+                  Expected return date:{' '}
+                  {new Date(borrower.expected_return_date).toLocaleDateString()}
+                </Typography>
+              </div>
+            );
+          })}
         </div>
       )}
 
