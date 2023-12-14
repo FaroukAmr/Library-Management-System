@@ -44,6 +44,15 @@ export default function BooksTable({ data, headers, redirectTo }: Props) {
     navigate(redirectTo + '/' + id);
   };
 
+  for (let i = 0; i < headers.length; i++) {
+    if (headers[i].includes('date')) {
+      data.forEach((row) => {
+        row[headers[i].replace(/ /g, '_')] = new Date(
+          row[headers[i].replace(/ /g, '_')]
+        ).toLocaleDateString();
+      });
+    }
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

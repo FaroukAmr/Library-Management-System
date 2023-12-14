@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { BookDetails } from './views/BookDetails';
 import Books from './views/Books';
+import { BorrowedBooksDetails } from './views/BorrowedBookDetails';
 import CreateBook from './views/CreateBook';
 import Home from './views/home';
 import Login from './views/Login';
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/books/create" element={<CreateBook />} />
           <Route path="books/:id" element={<BookDetails />} />
           <Route path="/my-books" element={<MyBooks />} />
+          <Route path="/my-books/:id" element={<BorrowedBooksDetails />} />
         </Route>
       </Routes>
     </div>

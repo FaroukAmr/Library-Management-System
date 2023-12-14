@@ -28,7 +28,6 @@ const MyBooks = () => {
       .then((response) => {
         setBooks(response.data);
         setFilteredBooks(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         setMessage(error.response.data.errors[0].msg);
