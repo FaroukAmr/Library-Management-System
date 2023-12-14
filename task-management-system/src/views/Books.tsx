@@ -11,14 +11,15 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SnackBar from './Snackbar';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
-  const [searchPhrase, setSearchPhrase] = useState<string>('');
 
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -64,7 +65,13 @@ const Books = () => {
             />
           </div>
 
-          <Button>Add Book</Button>
+          <Button
+            onClick={() => {
+              navigate('/books/create');
+            }}
+          >
+            Add Book
+          </Button>
         </div>
 
         <BooksTable data={filteredBooks} />

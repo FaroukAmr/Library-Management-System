@@ -48,17 +48,21 @@ export const BookDetails = () => {
       {book && (
         <div className="details-container">
           <Typography variant="h4">Book Details</Typography>
-          <Typography variant="h6">Title: {book.title}</Typography>
-          <Typography variant="h6">Author: {book.author}</Typography>
-          <Typography variant="h6">ISBN: {book.isbn}</Typography>
-          <Typography variant="h6">Quantity: {book.quantity}</Typography>
-          <Typography variant="h6">Shelf: {book.shelf}</Typography>
-          <Button type="button" variant="contained">
-            Edit
-          </Button>
-          <Button onClick={handleDelete} type="button" variant="contained">
-            Delete
-          </Button>
+          <div className="details">
+            <Typography variant="h6">Title: {book.title}</Typography>
+            <Typography variant="h6">Author: {book.author}</Typography>
+            <Typography variant="h6">ISBN: {book.isbn}</Typography>
+            <Typography variant="h6">Quantity: {book.quantity}</Typography>
+            <Typography variant="h6">Shelf: {book.shelf}</Typography>
+          </div>
+          <div className="buttons-container">
+            <Button type="button" variant="contained">
+              Edit
+            </Button>
+            <Button onClick={handleDelete} type="button" variant="contained">
+              Delete
+            </Button>
+          </div>
         </div>
       )}
 
