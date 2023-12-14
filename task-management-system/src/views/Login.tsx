@@ -54,16 +54,12 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        'http://localhost:9000/users/login',
-        form
-      );
-      console.log(response);
+      const response = await axios.post('/api/users/login', form);
 
       if (response.status === 200) {
         setOpen(true);
         setSeverity('success');
-        setMessage('Successfully registered!');
+        setMessage('Logged in successfully!');
       } else {
         setOpen(true);
         setSeverity('error');

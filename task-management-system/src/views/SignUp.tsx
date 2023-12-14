@@ -61,10 +61,7 @@ const SignUp = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        'http://localhost:9000/users/register',
-        form
-      );
+      const response = await axios.post('/api/users/register', form);
       console.log(response);
 
       if (response.status === 201) {
