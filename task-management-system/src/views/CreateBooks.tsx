@@ -57,7 +57,7 @@ const CreateBooks = () => {
         ISBN: form.ISBN.value,
         title: form.title.value,
         author: form.author.value,
-        quantity: form.quantity.value,
+        quantity: Number(form.quantity.value),
         shelf: form.shelf.value,
       });
       console.log(response);

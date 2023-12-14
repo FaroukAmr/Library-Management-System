@@ -16,4 +16,5 @@ router.post('/register', registerValidation, validate, registerUser);
 router.post('/login', loginValidation, validate, loginUser);
 router.get('/check-authentication', userAuth, checkAuthentication);
 router.get('/logout', userAuth, logoutUser);
+
 export default router;

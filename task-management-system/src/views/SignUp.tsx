@@ -57,8 +57,6 @@ const SignUp = () => {
         email: form.email.value,
         password: form.password.value,
       });
-      console.log(response);
-
       if (response.status === 201) {
         setOpen(true);
         setSeverity('success');
