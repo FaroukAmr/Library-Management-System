@@ -13,6 +13,7 @@ export async function getAllBorrowedBooks(req: Request, res: Response) {
       FROM borrowed_books bb
       JOIN books b ON bb.isbn = b.isbn
       WHERE bb.username = $1 AND bb.returned = false
+      ORDER BY bb.borrowed_date DESC, b.title ASC
     `,
       [user.username]
     );

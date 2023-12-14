@@ -5,7 +5,9 @@ import pool from '../db';
 
 export async function getAllBooks(req: Request, res: Response) {
   try {
-    const allBooks = await pool.query<Book>('SELECT * FROM books');
+    const allBooks = await pool.query<Book>(
+      'SELECT * FROM books ORDER BY title ASC'
+    );
     res.json(allBooks.rows);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
