@@ -1,10 +1,10 @@
 import '../styles/Books.css';
 
+import { Button, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import { Book } from '../models/Book';
 import BooksTable from './Table';
-import { Button } from '@mui/material';
 import { ChangeEvent } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -87,7 +87,7 @@ const Books = () => {
             Add Book
           </Button>
         </div>
-
+        <Typography variant="h4">All Books</Typography>
         <BooksTable data={filteredBooks} />
       </div>
       <SnackBar

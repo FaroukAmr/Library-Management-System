@@ -1,6 +1,7 @@
 import './middleware/passport';
 
 import booksRouter from './routes/books';
+import borrowsRouter from './routes/borrows';
 import config from './constants';
 import cookiesParser from 'cookie-parser';
 import cors from 'cors';
@@ -16,6 +17,7 @@ app.use(passport.initialize());
 
 app.use('/books', booksRouter);
 app.use('/users', usersRouter);
+app.use('/borrows', borrowsRouter);
 
 app.listen(config.PORT, () => {
   console.log(`Server listening on port ${config.PORT}`);

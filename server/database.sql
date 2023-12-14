@@ -20,5 +20,6 @@ CREATE TABLE borrowed_books(
     username VARCHAR(255) REFERENCES users(username),
     isbn VARCHAR(17) REFERENCES books(isbn),
     borrowed_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    returned BOOLEAN NOT NULL DEFAULT FALSE,
     return_date TIMESTAMP NOT NULL
 );
