@@ -34,3 +34,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.table-row {
+  cursor: pointer;
+}

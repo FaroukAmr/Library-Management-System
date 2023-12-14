@@ -1,3 +1,5 @@
+import '../styles/shared.css';
+
 import * as React from 'react';
 
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -51,7 +53,13 @@ export default function BooksTable({ data }: Props) {
         </TableHead>
         <TableBody>
           {data.map((row) => (
-            <StyledTableRow key={row.isbn}>
+            <StyledTableRow
+              onClick={() => {
+                console.log('clicked');
+              }}
+              className="table-row"
+              key={row.isbn}
+            >
               <StyledTableCell component="th" scope="row">
                 {row.title}
               </StyledTableCell>
