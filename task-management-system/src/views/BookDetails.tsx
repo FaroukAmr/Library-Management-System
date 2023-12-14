@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Book } from '../models/Book';
+import EditBook from './EditBook';
 import SnackBar from './Snackbar';
 import axios from 'axios';
 
@@ -13,13 +14,12 @@ export const BookDetails = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const [book, setBook] = useState<Book | null>(null);
+  const [edit, setEdit] = useState<boolean>(false);
   const navigate = useNavigate();
   useEffect(() => {
     axios
       .get('/api/books/' + id)
       .then((response) => {
-        console.log(response);
-
         if (response.data.length === 0) {
           setMessage('Book not found');
           setOpen(true);
@@ -43,6 +43,10 @@ export const BookDetails = () => {
     }
   };
 
+  if (edit) {
+    return <EditBook data={book!} />;
+  }
+
   return (
     <>
       {book && (
@@ -56,7 +60,13 @@ export const BookDetails = () => {
             <Typography variant="h6">Shelf: {book.shelf}</Typography>
           </div>
           <div className="buttons-container">
-            <Button type="button" variant="contained">
+            <Button
+              onClick={() => {
+                setEdit(true);
+              }}
+              type="button"
+              variant="contained"
+            >
               Edit
             </Button>
             <Button onClick={handleDelete} type="button" variant="contained">

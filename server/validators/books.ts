@@ -33,3 +33,5 @@ const shelf = check('shelf')
   .withMessage('Shelf is required');
 
 export const bookValidation = [isbn, title, author, quantity, shelf];
+
+export const editBookValidation = [title, author, quantity, shelf];

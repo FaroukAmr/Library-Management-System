@@ -42,8 +42,8 @@ export async function updateBook(req: Request, res: Response) {
     const id = req.params.id;
     const body = req.body;
     const updatedBook = await pool.query<Book>(
-      'UPDATE books SET isbn = $1, title = $2, author = $3, quantity = $4, shelf = $5 WHERE isbn = $6 RETURNING *',
-      [body.isbn, body.title, body.author, body.quantity, body.shelf, id]
+      'UPDATE books SET title = $1, author = $2, quantity = $3, shelf = $4 WHERE isbn = $5 RETURNING *',
+      [body.title, body.author, body.quantity, body.shelf, id]
     );
     res.json(updatedBook.rows[0]);
   } catch (err: any) {
