@@ -1,7 +1,7 @@
 CREATE DATABASE library;
 
 CREATE TABLE books(
-    ISBN VARCHAR(13) PRIMARY KEY,
+    isbn VARCHAR(13) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     quantity INT NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE users(
 CREATE TABLE borrowed_books(
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) REFERENCES users(username),
-    ISBN VARCHAR(17) REFERENCES books(ISBN),
+    isbn VARCHAR(17) REFERENCES books(isbn),
     borrowed_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     return_date TIMESTAMP NOT NULL
 );

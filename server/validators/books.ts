@@ -2,16 +2,16 @@ import { check } from 'express-validator';
 import { compare } from 'bcrypt';
 import db from '../db';
 
-const ISBN = check('ISBN')
+const isbn = check('isbn')
   .isLength({ min: 13, max: 13 })
-  .withMessage('ISBN must 13 digits long')
+  .withMessage('isbn must 13 digits long')
   .custom(async (value) => {
-    const { rows } = await db.query('SELECT * from books WHERE ISBN = $1', [
+    const { rows } = await db.query('SELECT * from books WHERE isbn = $1', [
       value,
     ]);
 
     if (rows.length) {
-      throw new Error('ISBN already exists.');
+      throw new Error('isbn already exists.');
     }
   });
 
@@ -32,4 +32,4 @@ const shelf = check('shelf')
   .isLength({ min: 1 })
   .withMessage('Shelf is required');
 
-export const bookValidation = [ISBN, title, author, quantity, shelf];
+export const bookValidation = [isbn, title, author, quantity, shelf];

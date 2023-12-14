@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 type FormState = {
-  ISBN: { value: string; error: string; dirty: boolean };
+  isbn: { value: string; error: string; dirty: boolean };
   title: { value: string; error: string; dirty: boolean };
   author: { value: string; error: string; dirty: boolean };
   quantity: { value: string; error: string; dirty: boolean };
@@ -21,7 +21,7 @@ type FormState = {
 
 const CreateBooks = () => {
   const [form, setForm] = useState<FormState>({
-    ISBN: { value: '', error: '', dirty: false },
+    isbn: { value: '', error: '', dirty: false },
     title: { value: '', error: '', dirty: false },
     author: { value: '', error: '', dirty: false },
     quantity: { value: '', error: '', dirty: false },
@@ -54,7 +54,7 @@ const CreateBooks = () => {
     }
     try {
       const response = await axios.post('/api/books', {
-        ISBN: form.ISBN.value,
+        isbn: form.isbn.value,
         title: form.title.value,
         author: form.author.value,
         quantity: Number(form.quantity.value),
@@ -79,15 +79,15 @@ const CreateBooks = () => {
   };
 
   const validateForm = (updatedForm: FormState) => {
-    const { ISBN, title, author, quantity, shelf } = updatedForm;
-    const ISBNRegex = /^[0-9]{13}$/;
+    const { isbn, title, author, quantity, shelf } = updatedForm;
+    const isbnRegex = /^[0-9]{13}$/;
     const quantityRegex = /^[0-9]+$/;
 
     let isValid = true;
 
-    if (!ISBNRegex.test(ISBN.value)) {
-      if (ISBN.dirty) {
-        ISBN.error = 'ISBN must be a 13 digit number';
+    if (!isbnRegex.test(isbn.value)) {
+      if (isbn.dirty) {
+        isbn.error = 'ISBN must be a 13 digit number';
       }
 
       isValid = false;
@@ -133,13 +133,13 @@ const CreateBooks = () => {
         <form className="inputs-container" noValidate onSubmit={handleSubmit}>
           <TextField
             className="button"
-            name="ISBN"
+            name="isbn"
             label="ISBN"
             variant="outlined"
-            value={form.ISBN.value}
+            value={form.isbn.value}
             onChange={handleChange}
-            error={!!form.ISBN.error}
-            helperText={form.ISBN.error}
+            error={!!form.isbn.error}
+            helperText={form.isbn.error}
           />
           <TextField
             className="button"
