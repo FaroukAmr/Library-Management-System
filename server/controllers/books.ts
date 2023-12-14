@@ -7,8 +7,8 @@ export async function getAllBooks(req: Request, res: Response) {
   try {
     const allBooks = await pool.query<Book>('SELECT * FROM books');
     res.json(allBooks.rows);
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -19,8 +19,8 @@ export async function getBookById(req: Request, res: Response) {
       id,
     ]);
     res.json(book.rows[0]);
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -32,8 +32,8 @@ export async function createBook(req: Request, res: Response) {
       [body.ISBN, body.title, body.author, body.quantity, body.shelf]
     );
     res.json(newBook.rows[0]);
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -46,8 +46,8 @@ export async function updateBook(req: Request, res: Response) {
       [body.ISBN, body.title, body.author, body.quantity, body.shelf, id]
     );
     res.json(updatedBook.rows[0]);
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -56,7 +56,7 @@ export async function deleteBook(req: Request, res: Response) {
     const id = req.params.id;
     await pool.query('DELETE FROM books WHERE ISBN = $1', [id]);
     res.json('Book deleted');
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 }
