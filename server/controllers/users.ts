@@ -60,3 +60,22 @@ export async function logoutUser(req: Request, res: Response) {
     });
   }
 }
+
+export async function checkAuthentication(req: Request, res: Response) {
+  try {
+    const user: User = (req as any).user as User;
+    return res.status(200).json({
+      success: true,
+      message: 'User authenticated',
+      isAuthenticated: true,
+    });
+  } catch (err: any) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+      data: {
+        isAuthenticated: false,
+      },
+    });
+  }
+}

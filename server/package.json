@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "proxy": "http://localhost:9000",
   "scripts": {
     "build": "rimraf dist && tsc",
     "prestart": "npm run build",
