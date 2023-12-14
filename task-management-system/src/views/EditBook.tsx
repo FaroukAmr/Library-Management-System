@@ -128,7 +128,7 @@ const EditBook = (props: EditBookProps) => {
     <div className="main-container">
       <Paper className="paper" elevation={3}>
         <Typography id="title" variant="h4">
-          Create Book
+          Edit Book
         </Typography>
         <form className="inputs-container" noValidate onSubmit={handleSubmit}>
           <TextField
