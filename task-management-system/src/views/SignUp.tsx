@@ -1,4 +1,4 @@
-import '../styles/SignUp.css';
+import '../styles/shared.css';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -10,6 +10,7 @@ import SnackBar from './Snackbar';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type FormState = {
   username: string;
@@ -36,6 +37,8 @@ const SignUp = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<string>('');
+
+  const navigate = useNavigate();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setErrors({
@@ -125,7 +128,9 @@ const SignUp = () => {
   return (
     <div className="main-container">
       <Paper className="paper" elevation={3}>
-        <Typography variant="h4">Register a new account</Typography>
+        <Typography id="title" variant="h4">
+          Register a new account
+        </Typography>
         <form className="inputs-container" noValidate onSubmit={handleSubmit}>
           <TextField
             className="button"
@@ -169,7 +174,15 @@ const SignUp = () => {
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword}
           />
-          <Link component="button" variant="body2" onClick={() => {}}>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {}}
+            type="button"
+            onClickCapture={() => {
+              navigate('/login');
+            }}
+          >
             Already registered? Sign In
           </Link>
           <Button disabled={!valid} type="submit" variant="contained">

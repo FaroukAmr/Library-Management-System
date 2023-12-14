@@ -24,3 +24,7 @@
 .button {
   max-width: 350px;
 }
+
+#title {
+  align-self: center;
+}
