@@ -78,12 +78,13 @@ export async function borrowBook(req: Request, res: Response) {
 
 export async function returnBook(req: Request, res: Response) {
   try {
-    const { username, isbn } = req.body;
+    const { isbn } = req.body;
+    const user: User = req.user! as User;
     await pool.query('BEGIN');
 
     await pool.query(
-      'UPDATE borrowed_books SET returned = true, actual_returned_date = CURRENT_TIMESTAMP WHERE username = $1 AND isbn = $2',
-      [username, isbn]
+      'UPDATE borrowed_books SET returned = true, actual_return_date = CURRENT_TIMESTAMP WHERE username = $1 AND isbn = $2',
+      [user.username, isbn]
     );
 
     await pool.query(

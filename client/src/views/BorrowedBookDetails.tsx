@@ -39,11 +39,12 @@ export const BorrowedBooksDetails = () => {
   const handleReturn = async () => {
     setLoading(true);
     try {
-      await axios.post('/api/borrows', {
+      await axios.patch('/api/borrows', {
         isbn: id,
       });
       navigate('/my-books');
     } catch (error: any) {
+      console.log(error);
       setMessage(error.response.data.errors[0].msg);
       setOpen(true);
     } finally {
@@ -63,7 +64,7 @@ export const BorrowedBooksDetails = () => {
     <>
       {book && (
         <div className="details-container">
-          <Typography variant="h4">Book Details</Typography>
+          <Typography variant="h4">Borrowed Book Details</Typography>
           <div className="details">
             <Typography variant="h6">Title: {book.title}</Typography>
             <Typography variant="h6">Author: {book.author}</Typography>
