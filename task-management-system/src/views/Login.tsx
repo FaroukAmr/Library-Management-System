@@ -13,20 +13,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 type FormState = {
-  email: string;
-  password: string;
+  email: { value: string; error: string; dirty: boolean };
+  password: { value: string; error: string; dirty: boolean };
 };
 
 const Login = () => {
   const [form, setForm] = useState<FormState>({
-    email: '',
-    password: '',
+    email: { value: '', error: '', dirty: false },
+    password: { value: '', error: '', dirty: false },
   });
 
-  const [errors, setErrors] = useState<FormState>({
-    email: '',
-    password: '',
-  });
   const [valid, setValid] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
@@ -34,15 +30,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setErrors({
-      ...errors,
-      [event.target.name]: '',
-    });
     setForm((prevForm) => {
+      const { name, value } = event.target;
       const updatedForm = {
         ...prevForm,
-        [event.target.name]: event.target.value,
+        [name]: { value, dirty: true, error: '' },
       };
+
       setValid(validateForm(updatedForm));
       return updatedForm;
     });
@@ -78,20 +72,18 @@ const Login = () => {
     const passwordRegex = /\d/;
     let isValid = true;
 
-    if (!emailRegex.test(email)) {
-      setErrors((errors) => ({
-        ...errors,
-        email: 'Please enter a valid email',
-      }));
+    if (!emailRegex.test(email.value)) {
+      if (email.dirty) {
+        email.error = 'Please enter a valid email address';
+      }
       isValid = false;
     }
 
-    if (password.length < 8 || !passwordRegex.test(password)) {
-      setErrors((errors) => ({
-        ...errors,
-        password:
-          'Password should be at least 8 characters long and contain a number',
-      }));
+    if (password.value.length < 8 || !passwordRegex.test(password.value)) {
+      if (password.dirty) {
+        password.error =
+          'Password must be at least 8 characters long and contain at least one number';
+      }
       isValid = false;
     }
 
@@ -110,10 +102,10 @@ const Login = () => {
             name="email"
             label="Email"
             variant="outlined"
-            value={form.email}
+            value={form.email.value}
             onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
+            error={!!form.email.error}
+            helperText={form.email.error}
           />
           <TextField
             className="button"
@@ -121,10 +113,10 @@ const Login = () => {
             label="Password"
             variant="outlined"
             type="password"
-            value={form.password}
+            value={form.password.value}
             onChange={handleChange}
-            error={!!errors.password}
-            helperText={errors.password}
+            error={!!form.password.error}
+            helperText={form.password.error}
           />
           <Link
             component="button"
