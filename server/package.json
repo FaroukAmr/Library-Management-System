@@ -6,7 +6,7 @@
   "proxy": "http://localhost:9000",
   "scripts": {
     "build": "rimraf dist && tsc",
-    "create-db": "ts-node createTables.ts",
+    "create-db": "ts-node CreateAndSeedDB.ts",
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "predev": "npm run build",
@@ -27,6 +27,7 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
