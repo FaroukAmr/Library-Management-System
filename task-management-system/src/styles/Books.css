@@ -1,0 +1,19 @@
+.books-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 0px 20px 0px 20px;
+}
+
+.books-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#input-with-icon-textfield {
+  display: flex;
+  flex: 1;
+  max-width: 500px;
+  align-self: stretch;
+}
