@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,7 +39,10 @@ interface Props {
 }
 
 export default function BooksTable({ data }: Props) {
-  console.log(data);
+  const navigate = useNavigate();
+  const handleClick = (id: string) => {
+    navigate('/books/' + id);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -55,7 +59,7 @@ export default function BooksTable({ data }: Props) {
           {data.map((row) => (
             <StyledTableRow
               onClick={() => {
-                console.log('clicked');
+                handleClick(row.isbn);
               }}
               className="table-row"
               key={row.isbn}
