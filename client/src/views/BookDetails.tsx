@@ -57,7 +57,7 @@ export const BookDetails = () => {
       await axios.post('/api/borrows', {
         isbn: id,
       });
-      navigate('/books');
+      navigate('/my-books');
     } catch (error: any) {
       setMessage(error.response.data.errors[0].msg);
       setOpen(true);

@@ -1,7 +1,5 @@
 import '../styles/shared.css';
 
-import * as React from 'react';
-
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 import { Book } from '../models/Book';
@@ -35,24 +33,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 interface Props {
-  data: Book[];
+  data: any[];
+  headers: string[];
+  redirectTo: string;
 }
 
-export default function BooksTable({ data }: Props) {
+export default function BooksTable({ data, headers, redirectTo }: Props) {
   const navigate = useNavigate();
   const handleClick = (id: string) => {
-    navigate('/books/' + id);
+    navigate(redirectTo + '/' + id);
   };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Title</StyledTableCell>
-            <StyledTableCell align="right">Author</StyledTableCell>
-            <StyledTableCell align="right">Quantity</StyledTableCell>
-            <StyledTableCell align="right">Shelf</StyledTableCell>
-            <StyledTableCell align="right">ISBN</StyledTableCell>
+            {headers.map((header, i) => (
+              <StyledTableCell key={i} align={i == 0 ? 'left' : 'right'}>
+                {header.toUpperCase()}
+              </StyledTableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,13 +65,21 @@ export default function BooksTable({ data }: Props) {
               className="table-row"
               key={row.isbn}
             >
-              <StyledTableCell component="th" scope="row">
-                {row.title}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.author}</StyledTableCell>
-              <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-              <StyledTableCell align="right">{row.shelf}</StyledTableCell>
-              <StyledTableCell align="right">{row.isbn}</StyledTableCell>
+              {headers.map((header, i) => {
+                if (i == 0) {
+                  return (
+                    <StyledTableCell key={i} component="th" scope="row">
+                      {row[header.replace(/ /g, '_') as keyof Book]}
+                    </StyledTableCell>
+                  );
+                } else {
+                  return (
+                    <StyledTableCell key={i} align="right">
+                      {row[header.replace(/ /g, '_') as keyof Book]}
+                    </StyledTableCell>
+                  );
+                }
+              })}
             </StyledTableRow>
           ))}
         </TableBody>

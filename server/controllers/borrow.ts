@@ -6,11 +6,10 @@ import pool from '../db';
 
 export async function getAllBorrowedBooks(req: Request, res: Response) {
   const user: User = req.user! as User;
-  console.log(user);
   try {
-    const allBorrows = await pool.query<Borrow>(
+    const allBorrows = await pool.query(
       `
-      SELECT b.isbn, b.title, b.author, bb.borrowed_date 
+      SELECT b.isbn, b.title, b.author, b.quantity, b.shelf, bb.borrowed_date, bb.expected_return_date 
       FROM borrowed_books bb
       JOIN books b ON bb.isbn = b.isbn
       WHERE bb.username = $1 AND bb.returned = false

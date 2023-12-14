@@ -7,6 +7,7 @@ import Books from './views/Books';
 import CreateBook from './views/CreateBook';
 import Home from './views/home';
 import Login from './views/Login';
+import MyBooks from './views/MyBooks';
 import Navbar from './views/Navbar';
 import PrivateRoutes from './views/PrivateRoutes';
 import SignUp from './views/SignUp';
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/books" element={<Books />} />
           <Route path="/books/create" element={<CreateBook />} />
           <Route path="books/:id" element={<BookDetails />} />
+          <Route path="/my-books" element={<MyBooks />} />
         </Route>
       </Routes>
     </div>

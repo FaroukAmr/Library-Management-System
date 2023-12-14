@@ -22,11 +22,11 @@ export const Navbar = () => {
       <div className="navbar">
         <Link
           onClick={() => {
-            navigate('/');
+            navigate('/my-books');
           }}
           className="navbar-item"
         >
-          Home
+          My Books
         </Link>
         <Link
           onClick={() => {

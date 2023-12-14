@@ -1,35 +1,34 @@
 import '../styles/Books.css';
 
-import { Button, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { Book } from '../models/Book';
 import BooksTable from './Table';
+import { BorrowedBook } from '../models/BorrowedBook';
 import { ChangeEvent } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SnackBar from './Snackbar';
 import TextField from '@mui/material/TextField';
+import { Typography } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const Books = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+const MyBooks = () => {
+  const [books, setBooks] = useState<BorrowedBook[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<BorrowedBook[]>([]);
 
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get('/api/books')
+      .get('/api/borrows')
       .then((response) => {
         setBooks(response.data);
         setFilteredBooks(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         setMessage(error.response.data.errors[0].msg);
@@ -78,20 +77,20 @@ const Books = () => {
               variant="standard"
             />
           </div>
-
-          <Button
-            onClick={() => {
-              navigate('/books/create');
-            }}
-          >
-            Add Book
-          </Button>
         </div>
-        <Typography variant="h4">All Books</Typography>
+        <Typography variant="h4">Borrowed Books</Typography>
         <BooksTable
-          redirectTo="/books"
-          headers={['title', 'author', 'quantity', 'shelf', 'isbn']}
+          headers={[
+            'title',
+            'author',
+            'quantity',
+            'shelf',
+            'isbn',
+            'borrowed date',
+            'expected return date',
+          ]}
           data={filteredBooks}
+          redirectTo={'/my-books'}
         />
       </div>
       <SnackBar
@@ -104,4 +103,4 @@ const Books = () => {
   );
 };
 
-export default Books;
+export default MyBooks;
