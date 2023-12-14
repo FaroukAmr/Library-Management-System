@@ -1,6 +1,6 @@
 import '../styles/BookDetails.css';
 
-import { Button, Typography } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -15,8 +15,10 @@ export const BookDetails = () => {
   const [message, setMessage] = useState<string>('');
   const [book, setBook] = useState<Book | null>(null);
   const [edit, setEdit] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   useEffect(() => {
+    setLoading(true);
     axios
       .get('/api/books/' + id)
       .then((response) => {
@@ -30,18 +32,32 @@ export const BookDetails = () => {
       .catch((error) => {
         setMessage(error.response.data.errors[0].msg);
         setOpen(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [id]);
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       await axios.delete('/api/books/' + id);
       navigate('/books');
     } catch (error: any) {
       setMessage(error.response.data.errors[0].msg);
       setOpen(true);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="spinner">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   if (edit) {
     return <EditBook data={book!} />;

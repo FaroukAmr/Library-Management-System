@@ -1,8 +1,8 @@
 import '../styles/shared.css';
 
+import { AlertColor, CircularProgress } from '@mui/material';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { AlertColor } from '@mui/material';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import SnackBar from './Snackbar';
@@ -19,7 +19,7 @@ type FormState = {
   shelf: { value: string; error: string; dirty: boolean };
 };
 
-const CreateBooks = () => {
+const CreateBook = () => {
   const [form, setForm] = useState<FormState>({
     isbn: { value: '', error: '', dirty: false },
     title: { value: '', error: '', dirty: false },
@@ -29,6 +29,7 @@ const CreateBooks = () => {
   });
 
   const [valid, setValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<string>('');
@@ -53,6 +54,7 @@ const CreateBooks = () => {
       return;
     }
     try {
+      setLoading(true);
       const response = await axios.post('/api/books', {
         isbn: form.isbn.value,
         title: form.title.value,
@@ -75,6 +77,8 @@ const CreateBooks = () => {
       setOpen(true);
       setSeverity('error');
       setMessage(error.response.data.errors[0].msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,6 +128,14 @@ const CreateBooks = () => {
     return isValid;
   };
 
+  if (loading) {
+    return (
+      <div className="spinner">
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <div className="main-container">
       <Paper className="paper" elevation={3}>
@@ -144,7 +156,7 @@ const CreateBooks = () => {
           <TextField
             className="button"
             name="title"
-            label="title"
+            label="Title"
             variant="outlined"
             value={form.title.value}
             onChange={handleChange}
@@ -154,7 +166,7 @@ const CreateBooks = () => {
           <TextField
             className="button"
             name="author"
-            label="author"
+            label="Author"
             variant="outlined"
             value={form.author.value}
             onChange={handleChange}
@@ -164,7 +176,7 @@ const CreateBooks = () => {
           <TextField
             className="button"
             name="quantity"
-            label="quantity"
+            label="Quantity"
             variant="outlined"
             value={form.quantity.value}
             onChange={handleChange}
@@ -174,7 +186,7 @@ const CreateBooks = () => {
           <TextField
             className="button"
             name="shelf"
-            label="shelf"
+            label="Shelf"
             variant="outlined"
             value={form.shelf.value}
             onChange={handleChange}
@@ -197,4 +209,4 @@ const CreateBooks = () => {
   );
 };
 
-export default CreateBooks;
+export default CreateBook;

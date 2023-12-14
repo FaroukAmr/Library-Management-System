@@ -1,8 +1,8 @@
 import '../styles/shared.css';
 
+import { AlertColor, CircularProgress } from '@mui/material';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { AlertColor } from '@mui/material';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
@@ -31,6 +31,7 @@ const SignUp = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -52,6 +53,7 @@ const SignUp = () => {
       return;
     }
     try {
+      setLoading(true);
       const response = await axios.post('/api/users/register', {
         username: form.username.value,
         email: form.email.value,
@@ -70,6 +72,8 @@ const SignUp = () => {
       setOpen(true);
       setSeverity('error');
       setMessage(error.response.data.errors[0].msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,6 +114,14 @@ const SignUp = () => {
 
     return isValid;
   };
+
+  if (loading) {
+    return (
+      <div className="spinner">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div className="main-container">

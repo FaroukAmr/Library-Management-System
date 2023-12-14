@@ -6,6 +6,7 @@ import { Book } from '../models/Book';
 import BooksTable from './Table';
 import { Button } from '@mui/material';
 import { ChangeEvent } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SnackBar from './Snackbar';
@@ -19,9 +20,11 @@ const Books = () => {
 
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get('/api/books')
       .then((response) => {
@@ -31,6 +34,9 @@ const Books = () => {
       .catch((error) => {
         setMessage(error.response.data.errors[0].msg);
         setOpen(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -44,6 +50,14 @@ const Books = () => {
     });
     setFilteredBooks(ans);
   };
+
+  if (loading) {
+    return (
+      <div className="spinner">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <>

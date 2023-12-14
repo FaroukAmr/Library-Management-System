@@ -1,9 +1,9 @@
 import '../styles/shared.css';
 
+import { AlertColor, CircularProgress } from '@mui/material';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { AlertColor } from '@mui/material';
 import { Book } from '../models/Book';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -41,6 +41,7 @@ const EditBook = (props: EditBookProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +63,7 @@ const EditBook = (props: EditBookProps) => {
       return;
     }
     try {
+      setLoading(true);
       const response = await axios.put('/api/books/' + id, {
         isbn: props.data.isbn,
         title: form.title.value,
@@ -84,6 +86,8 @@ const EditBook = (props: EditBookProps) => {
       setOpen(true);
       setSeverity('error');
       setMessage(error.response.data.errors[0].msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,6 +127,14 @@ const EditBook = (props: EditBookProps) => {
 
     return isValid;
   };
+
+  if (loading) {
+    return (
+      <div className="spinner">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div className="main-container">
