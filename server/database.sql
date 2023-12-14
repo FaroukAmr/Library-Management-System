@@ -1,6 +1,4 @@
-CREATE DATABASE library;
-
-CREATE TABLE books(
+CREATE TABLE IF NOT EXISTS books(
     isbn VARCHAR(13) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
@@ -8,13 +6,13 @@ CREATE TABLE books(
     shelf VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
     username VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     registered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE borrowed_books(
+CREATE TABLE IF NOT EXISTS borrowed_books(
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) REFERENCES users(username),
     isbn VARCHAR(17) REFERENCES books(isbn),

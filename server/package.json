@@ -6,6 +6,7 @@
   "proxy": "http://localhost:9000",
   "scripts": {
     "build": "rimraf dist && tsc",
+    "create-db": "ts-node createTables.ts",
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "predev": "npm run build",
@@ -38,6 +39,7 @@
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.2",
     "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
