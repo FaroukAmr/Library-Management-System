@@ -11,13 +11,7 @@ import validate from '../middleware/validations';
 
 const router = express.Router();
 
-router.get(
-  '/:username',
-  userAuth,
-  borrowsValidation,
-  validate,
-  getAllBorrowedBooks
-);
+router.get('/:id', userAuth, validate, getAllBorrowedBooks);
 
 router.post('/', userAuth, borrowsValidation, validate, borrowBook);
 

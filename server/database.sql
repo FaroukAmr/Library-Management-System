@@ -14,12 +14,12 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL,
     registered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
 CREATE TABLE borrowed_books(
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) REFERENCES users(username),
     isbn VARCHAR(17) REFERENCES books(isbn),
     borrowed_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    returned BOOLEAN NOT NULL DEFAULT FALSE,
-    return_date TIMESTAMP NOT NULL
+    expected_return_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '30 days',
+    returned BOOLEAN DEFAULT FALSE,
+    actual_return_date TIMESTAMP DEFAULT NULL
 );

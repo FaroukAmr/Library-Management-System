@@ -1,3 +1,4 @@
+import { User } from '../models/User';
 import { check } from 'express-validator';
 import db from '../db';
 
@@ -13,9 +14,10 @@ const bookAvailable = check('isbn').custom(async (isbn) => {
 });
 
 const alreadyBorrowed = check('isbn').custom(async (isbn, { req }) => {
+  const user: User = req.user! as User;
   const { rows } = await db.query(
     'SELECT * from borrowed_books WHERE isbn = $1 AND username = $2 AND returned = false',
-    [isbn, req.body.username]
+    [isbn, user.username]
   );
 
   if (rows.length) {

@@ -51,6 +51,21 @@ export const BookDetails = () => {
     }
   };
 
+  const handleBorrow = async () => {
+    setLoading(true);
+    try {
+      await axios.post('/api/borrows', {
+        isbn: id,
+      });
+      navigate('/books');
+    } catch (error: any) {
+      setMessage(error.response.data.errors[0].msg);
+      setOpen(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="spinner">
@@ -84,6 +99,9 @@ export const BookDetails = () => {
               variant="contained"
             >
               Edit
+            </Button>
+            <Button onClick={handleBorrow} type="button" variant="contained">
+              Borrow
             </Button>
             <Button onClick={handleDelete} type="button" variant="contained">
               Delete

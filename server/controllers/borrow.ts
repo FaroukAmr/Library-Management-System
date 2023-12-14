@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 
 import { Borrow } from '../models/Borrow';
+import { User } from '../models/User';
 import pool from '../db';
 
 export async function getAllBorrowedBooks(req: Request, res: Response) {
+  const user: User = req.user! as User;
+  console.log(user);
   try {
-    const username = req.params.username;
     const allBorrows = await pool.query<Borrow>(
       `
       SELECT b.isbn, b.title, b.author, bb.borrowed_date 
@@ -13,7 +15,7 @@ export async function getAllBorrowedBooks(req: Request, res: Response) {
       JOIN books b ON bb.isbn = b.isbn
       WHERE bb.username = $1 AND bb.returned = false
     `,
-      [username]
+      [user.username]
     );
     res.json(allBorrows.rows);
   } catch (err: any) {
@@ -26,12 +28,14 @@ export async function getAllBorrowedBooks(req: Request, res: Response) {
 
 export async function borrowBook(req: Request, res: Response) {
   try {
-    const { username, isbn } = req.body;
+    const { isbn } = req.body;
+    const user: User = req.user! as User;
+
     await pool.query('BEGIN');
 
     const newBorrow = await pool.query<Borrow>(
       'INSERT INTO borrowed_books (username,isbn) VALUES ($1,$2) RETURNING *',
-      [username, isbn]
+      [user.username, isbn]
     );
 
     await pool.query(
@@ -43,6 +47,7 @@ export async function borrowBook(req: Request, res: Response) {
     res.json(newBorrow.rows[0]);
   } catch (err: any) {
     await pool.query('ROLLBACK');
+    console.log(err);
     res.status(500).json({
       success: false,
       error: err.message,
@@ -56,7 +61,7 @@ export async function returnBook(req: Request, res: Response) {
     await pool.query('BEGIN');
 
     await pool.query(
-      'UPDATE borrowed_books SET returned = true, returned_date = CURRENT_TIMESTAMP WHERE username = $1 AND isbn = $2',
+      'UPDATE borrowed_books SET returned = true, actual_returned_date = CURRENT_TIMESTAMP WHERE username = $1 AND isbn = $2',
       [username, isbn]
     );
 
