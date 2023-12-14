@@ -6,7 +6,7 @@ import { BookDetails } from './views/BookDetails';
 import Books from './views/Books';
 import { BorrowedBooksDetails } from './views/BorrowedBookDetails';
 import CreateBook from './views/CreateBook';
-import Home from './views/home';
+import Home from './views/Home';
 import Login from './views/Login';
 import MyBooks from './views/MyBooks';
 import Navbar from './views/Navbar';

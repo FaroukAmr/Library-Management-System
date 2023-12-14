@@ -22,10 +22,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
+const StyledTableRow = styled(TableRow)(() => ({
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -36,9 +33,15 @@ interface Props {
   data: any[];
   headers: string[];
   redirectTo: string;
+  hasDate?: boolean;
 }
 
-export default function BooksTable({ data, headers, redirectTo }: Props) {
+export default function BooksTable({
+  data,
+  headers,
+  redirectTo,
+  hasDate,
+}: Props) {
   const navigate = useNavigate();
   const handleClick = (id: string) => {
     navigate(redirectTo + '/' + id);
@@ -53,6 +56,15 @@ export default function BooksTable({ data, headers, redirectTo }: Props) {
       });
     }
   }
+  const isDateExceeded = (index: number): boolean => {
+    if (hasDate) {
+      const borrowedDate = new Date(data[index].borrowed_date);
+      const expectedReturnDate = new Date(data[index].expected_return_date);
+      return borrowedDate > expectedReturnDate;
+    }
+    return false;
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -66,13 +78,14 @@ export default function BooksTable({ data, headers, redirectTo }: Props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
+          {data.map((row, i) => (
             <StyledTableRow
               onClick={() => {
                 handleClick(row.isbn);
               }}
               className="table-row"
               key={row.isbn}
+              style={{ background: isDateExceeded(i) ? '#c00000' : '#f5f5f5' }}
             >
               {headers.map((header, i) => {
                 if (i == 0) {

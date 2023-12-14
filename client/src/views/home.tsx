@@ -1,7 +1,9 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const home = () => {
-  return <div>home</div>;
+const Home = () => {
+  const navigate = useNavigate();
+  navigate('/books');
+  return <div></div>;
 };
 
-export default home;
+export default Home;

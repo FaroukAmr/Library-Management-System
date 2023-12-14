@@ -90,6 +90,7 @@ const MyBooks = () => {
           ]}
           data={filteredBooks}
           redirectTo={'/my-books'}
+          hasDate={true}
         />
       </div>
       <SnackBar
