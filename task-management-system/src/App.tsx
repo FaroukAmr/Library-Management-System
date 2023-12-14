@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import Books from './views/Books';
 import CreateBooks from './views/CreateBooks';
 import Home from './views/home';
 import Login from './views/Login';
@@ -14,7 +15,7 @@ const App = () => {
       <Route element={<PrivateRoutes />}>
         <Route path="/" element={<Home />} />
         <Route path="/books/create" element={<CreateBooks />} />
-        <Route path="/books/details/:id" element={<CreateBooks />} />
+        <Route path="/books" element={<Books />} />
       </Route>
     </Routes>
   );

@@ -60,11 +60,11 @@ const CreateBooks = () => {
         quantity: Number(form.quantity.value),
         shelf: form.shelf.value,
       });
-      console.log(response);
       if (response.status === 200) {
         setOpen(true);
         setSeverity('success');
         setMessage('Book created successfully!');
+        navigate('/books');
       } else {
         setOpen(true);
         setSeverity('error');
@@ -82,7 +82,6 @@ const CreateBooks = () => {
     const { ISBN, title, author, quantity, shelf } = updatedForm;
     const ISBNRegex = /^[0-9]{13}$/;
     const quantityRegex = /^[0-9]+$/;
-    console.log(updatedForm);
 
     let isValid = true;
 
