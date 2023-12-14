@@ -6,7 +6,7 @@
   "proxy": "http://localhost:9000",
   "scripts": {
     "build": "rimraf dist && tsc",
-    "create-db": "ts-node CreateAndSeedDB.ts",
+    "create-seed-db": "ts-node CreateAndSeedDB.ts",
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "predev": "npm run build",
