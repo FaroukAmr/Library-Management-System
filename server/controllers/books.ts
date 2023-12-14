@@ -5,9 +5,13 @@ import pool from '../database/db';
 
 export async function getAllBooks(req: Request, res: Response) {
   try {
-    const allBooks = await pool.query<Book>(
-      'SELECT * FROM books ORDER BY title ASC'
-    );
+    const allBooks = await pool.query<Book>(`
+      SELECT books.*, COALESCE(COUNT(borrowed_books.returned = false), 0) AS borrowed_count
+      FROM books
+      LEFT JOIN borrowed_books ON books.isbn = borrowed_books.isbn
+      GROUP BY books.isbn
+      ORDER BY borrowed_count DESC, books.title ASC
+    `);
     res.json(allBooks.rows);
   } catch (err: any) {
     res.status(500).json({ error: err.message });

@@ -28,10 +28,12 @@ const Books = () => {
     axios
       .get('/api/books')
       .then((response) => {
+        console.log(response.data);
         setBooks(response.data);
         setFilteredBooks(response.data);
       })
       .catch((error) => {
+        console.log(error);
         setMessage(error.response.data.errors[0].msg);
         setOpen(true);
       })
@@ -90,7 +92,14 @@ const Books = () => {
         <Typography variant="h4">All Books</Typography>
         <BooksTable
           redirectTo="/books"
-          headers={['title', 'author', 'quantity', 'shelf', 'isbn']}
+          headers={[
+            'title',
+            'author',
+            'quantity',
+            'shelf',
+            'isbn',
+            'borrowed count',
+          ]}
           data={filteredBooks}
         />
       </div>
