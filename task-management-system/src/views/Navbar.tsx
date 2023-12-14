@@ -1,16 +1,28 @@
 import '../styles/Navbar.css';
 
 import Link from '@mui/material/Link';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    axios
+      .get('/api/users/logout')
+      .then(() => {
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className="navbar-container">
       <div className="navbar">
         <Link
           onClick={() => {
-            navigate('/home');
+            navigate('/');
           }}
           className="navbar-item"
         >
@@ -36,19 +48,11 @@ export const Navbar = () => {
       <div className="navbar">
         <Link
           onClick={() => {
-            navigate('/sign-up');
+            handleLogout();
           }}
           className="navbar-item"
         >
-          Sign Up
-        </Link>
-        <Link
-          onClick={() => {
-            navigate('/login');
-          }}
-          className="navbar-item"
-        >
-          Login
+          Logout
         </Link>
       </div>
     </div>

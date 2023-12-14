@@ -50,11 +50,15 @@ const Login = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.post('/api/users/login', form);
+      const response = await axios.post('/api/users/login', {
+        email: form.email.value,
+        password: form.password.value,
+      });
       if (response.status === 200) {
         setOpen(true);
         setSeverity('success');
         setMessage('Logged in successfully!');
+        navigate('/');
       } else {
         setOpen(true);
         setSeverity('error');
