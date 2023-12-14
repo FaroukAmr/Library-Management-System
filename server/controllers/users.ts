@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { User } from '../models/User';
 import config from '../constants';
 import { hash } from 'bcrypt';
-import pool from '../db';
+import pool from '../database/db';
 import { sign } from 'jsonwebtoken';
 
 export async function registerUser(req: Request, res: Response) {

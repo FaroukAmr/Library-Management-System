@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import config from './constants/index';
+import config from '../constants/index';
 import { faker } from '@faker-js/faker';
 import fs from 'fs';
 import path from 'path';

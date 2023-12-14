@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { Borrow } from '../models/Borrow';
 import { User } from '../models/User';
-import pool from '../db';
+import pool from '../database/db';
 
 export async function getAllBorrowedBooks(req: Request, res: Response) {
   const user: User = req.user! as User;

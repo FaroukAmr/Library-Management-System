@@ -1,6 +1,6 @@
 import { User } from '../models/User';
 import { check } from 'express-validator';
-import db from '../db';
+import db from '../database/db';
 
 const bookAvailable = check('isbn').custom(async (isbn) => {
   const { rows } = await db.query(

@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Strategy } from 'passport-jwt';
 import config from '../constants';
-import db from '../db';
+import db from '../database/db';
 import passport from 'passport';
 
 const cookieExtractor = function (req: Request) {

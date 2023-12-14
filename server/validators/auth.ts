@@ -1,6 +1,6 @@
 import { check } from 'express-validator';
 import { compare } from 'bcrypt';
-import db from '../db';
+import db from '../database/db';
 
 const password = check('password')
   .isLength({ min: 8 })

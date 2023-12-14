@@ -1,6 +1,6 @@
 import { check } from 'express-validator';
 import { compare } from 'bcrypt';
-import db from '../db';
+import db from '../database/db';
 
 const isbn = check('isbn')
   .isLength({ min: 13, max: 13 })

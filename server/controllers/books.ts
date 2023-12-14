@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Book } from '../models/Book';
-import pool from '../db';
+import pool from '../database/db';
 
 export async function getAllBooks(req: Request, res: Response) {
   try {
