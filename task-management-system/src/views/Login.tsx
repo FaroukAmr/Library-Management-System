@@ -86,7 +86,6 @@ const Login = () => {
       }
       isValid = false;
     }
-
     return isValid;
   };
 
