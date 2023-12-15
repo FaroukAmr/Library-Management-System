@@ -29,6 +29,7 @@ You need to have the following installed on your machine:
    ```sh
    npm install
    ```
+   **Before the next steps go to .env@example and rename it to .env and fill it with your database credentials**
    ```sh
    npm run create-seed-db
    ```
