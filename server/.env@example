@@ -1,0 +1,10 @@
+create .env file in root server directory and copy the following content to it, then add your DB_USER and DB_PASSWORD
+
+PORT=9000
+SECRET=secret
+CLIENT_URL=http://localhost:3000
+DB_USER=@example: postgres 
+DB_HOST=localhost
+DB_PASSWORD=@example: farouk123
+DB_PORT=5432
+DB_DATABASE_NAME=library
