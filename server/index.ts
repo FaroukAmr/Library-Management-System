@@ -18,13 +18,13 @@ app.use(passport.initialize());
 
 export const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 requests per windowMs
+  max: 5000, // limit each IP to 5000 requests per windowMs
   message: 'Too many requests from this IP, please try again late',
 });
 
 app.use('/books', booksRouter);
 app.use('/users', usersRouter);
-app.use('/borrows', borrowsRouter);
+app.use('/borrows', limiter, borrowsRouter);
 
 app.listen(config.PORT, () => {
   console.log(`Server listening on port ${config.PORT}`);
