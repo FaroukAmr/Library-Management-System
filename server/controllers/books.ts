@@ -60,8 +60,13 @@ export async function updateBook(req: Request, res: Response) {
 export async function deleteBook(req: Request, res: Response) {
   try {
     const id = req.params.id;
-    await pool.query('DELETE FROM books WHERE isbn = $1', [id]);
-    res.json('Book deleted');
+    await pool.query('DELETE FROM borrowed_books WHERE isbn = $1', [id]);
+    const x = await pool.query('DELETE FROM books WHERE isbn = $1', [id]);
+    console.log(x);
+    if (x.rowCount === 0) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+    res.json({ message: 'Book deleted successfully' });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

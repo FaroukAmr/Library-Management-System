@@ -4,4 +4,5 @@ export interface Book {
   author: string;
   quantity: number;
   shelf: string;
+  borrowed_count: number;
 }

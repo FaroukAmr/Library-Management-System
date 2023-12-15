@@ -4,7 +4,7 @@ import db from '../database/db';
 
 const isbn = check('isbn')
   .isLength({ min: 13, max: 13 })
-  .withMessage('isbn must 13 digits long')
+  .withMessage('isbn must be 13 digits long')
   .custom(async (value) => {
     const { rows } = await db.query('SELECT * from books WHERE isbn = $1', [
       value,
