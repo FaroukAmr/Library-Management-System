@@ -56,3 +56,7 @@ You need to have the following installed on your machine:
 ## API Documentation
 
 [Swagger](https://app.swaggerhub.com/apis/FAROUKAMR508/Library/1.0.0#/)
+
+## Database Diagram
+
+[drawsql.app](https://drawsql.app/teams/farouks-team/diagrams/library)
