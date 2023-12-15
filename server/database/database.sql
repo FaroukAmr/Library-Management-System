@@ -22,5 +22,5 @@ CREATE TABLE IF NOT EXISTS borrowed_books(
     actual_return_date TIMESTAMP DEFAULT NULL
 );
 
-CREATE INDEX idx_borrowed_books_returned ON borrowed_books (returned);
-CREATE INDEX idx_borrowed_books_returned_username ON borrowed_books (returned, username);
+CREATE INDEX IF NOT EXISTS idx_borrowed_books_returned ON borrowed_books (returned);
+CREATE INDEX IF NOT EXISTS idx_borrowed_books_returned_username ON borrowed_books (returned, username);
