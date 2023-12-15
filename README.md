@@ -8,6 +8,7 @@ This is a library management system that allows users to borrow books from the l
 2. [Installation](#installation)
 3. [Usage](#usage)
 4. [API Documentation](#api-documentation)
+5. [Database Diagram](#database-diagram)
 
 ## Preqrequisites
 
