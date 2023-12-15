@@ -10,6 +10,7 @@ import {
 import { borrowsValidation, returnValidation } from '../validators/borrows';
 
 import express from 'express';
+import { limiter } from '../index';
 import userAuth from '../middleware/auth';
 import validate from '../middleware/validations';
 

@@ -16,14 +16,14 @@ app.use(cookiesParser());
 app.use(cors({ origin: config.CLIENT_URL, credentials: true }));
 app.use(passport.initialize());
 
-const limiter = rateLimit({
+export const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // limit each IP to 100 requests per windowMs
+  max: 1, // limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again late',
 });
 
 app.use('/books', booksRouter);
-app.use('/users', limiter, usersRouter);
+app.use('/users', usersRouter);
 app.use('/borrows', borrowsRouter);
 
 app.listen(config.PORT, () => {

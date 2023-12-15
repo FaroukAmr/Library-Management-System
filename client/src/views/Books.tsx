@@ -61,6 +61,7 @@ const Books = () => {
         'overdue_borrowed_books_last_month.csv'
       );
     } catch (error: any) {
+      console.log(error);
       setMessage(error.response.data.errors[0].msg);
       setOpen(true);
     } finally {

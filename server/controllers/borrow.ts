@@ -134,8 +134,6 @@ export async function exportOverdueBorrowsOfLastMonth(
   res: Response
 ) {
   try {
-    const { date } = req.body;
-
     const result = await pool.query(
       `SELECT *
        FROM borrowed_books 
@@ -143,14 +141,17 @@ export async function exportOverdueBorrowsOfLastMonth(
        AND expected_return_date < current_date
        AND returned = false`
     );
-    console.log(result.rows);
-    for (const row of result.rows) {
-      console.log(row);
-    }
-    res.status(200).json({
-      success: true,
-      data: result.rows,
-    });
+    const json2csvParser = new Parser();
+    const csv =
+      result.rows.length > 0
+        ? json2csvParser.parse(result.rows)
+        : 'no data to export for last month';
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=borrowed_books.csv'
+    );
+    res.status(200).send(csv);
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -166,14 +167,17 @@ export async function exportAllBorrowsOfLastMonth(req: Request, res: Response) {
        FROM borrowed_books 
        WHERE borrowed_date >= (current_date - interval '1 month')`
     );
+
     const json2csvParser = new Parser();
-    const csv = json2csvParser.parse(result.rows);
+    const csv =
+      result.rows.length > 0
+        ? json2csvParser.parse(result.rows)
+        : 'no data to export for last month';
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader(
       'Content-Disposition',
       'attachment; filename=borrowed_books.csv'
     );
-    console.log(csv);
     res.status(200).send(csv);
   } catch (err: any) {
     res.status(500).json({
