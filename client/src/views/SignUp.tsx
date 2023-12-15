@@ -71,7 +71,7 @@ const SignUp = () => {
     } catch (error: any) {
       setOpen(true);
       setSeverity('error');
-      setMessage(error.response.data.errors[0].msg);
+      setMessage(error.response.data || error.response.data.errors[0].msg);
     } finally {
       setLoading(false);
     }

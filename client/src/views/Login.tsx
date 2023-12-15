@@ -64,10 +64,12 @@ const Login = () => {
         setSeverity('error');
         setMessage(response.data.errors[0].msg);
       }
+      console.log(response, 'response');
     } catch (error: any) {
       setOpen(true);
       setSeverity('error');
-      setMessage(error.response.data.errors[0].msg);
+      console.log(error);
+      setMessage(error.response.data || error.response.data.errors[0].msg);
     } finally {
       setLoading(false);
     }
