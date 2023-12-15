@@ -1,5 +1,7 @@
 import {
   borrowBook,
+  exportAllBorrowsOfLastMonth,
+  exportOverdueBorrowsOfLastMonth,
   getAllBookBorrowers,
   getAllBorrowedBooks,
   getBorrowedBookById,
@@ -15,11 +17,10 @@ const router = express.Router();
 
 router.get('/:id', userAuth, validate, getBorrowedBookById);
 router.get('/', userAuth, validate, getAllBorrowedBooks);
-
 router.post('/', userAuth, borrowsValidation, validate, borrowBook);
-
 router.post('/:id', userAuth, validate, getAllBookBorrowers);
-
+router.get('/export/all', userAuth, exportAllBorrowsOfLastMonth);
+router.get('/export/overdue', userAuth, exportOverdueBorrowsOfLastMonth);
 router.patch('/', userAuth, returnValidation, validate, returnBook);
 
 export default router;

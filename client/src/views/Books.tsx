@@ -12,7 +12,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SnackBar from './Snackbar';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { saveAs } from 'file-saver';
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -21,19 +21,16 @@ const Books = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     axios
       .get('/api/books')
       .then((response) => {
-        console.log(response.data);
         setBooks(response.data);
         setFilteredBooks(response.data);
       })
       .catch((error) => {
-        console.log(error);
         setMessage(error.response.data.errors[0].msg);
         setOpen(true);
       })
@@ -51,6 +48,42 @@ const Books = () => {
       );
     });
     setFilteredBooks(ans);
+  };
+
+  const handleExportOverdue = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('/api/borrows/export/overdue', {
+        responseType: 'blob',
+      });
+      saveAs(
+        new Blob([response.data], { type: 'text/csv' }),
+        'overdue_borrowed_books_last_month.csv'
+      );
+    } catch (error: any) {
+      setMessage(error.response.data.errors[0].msg);
+      setOpen(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleExportAll = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('/api/borrows/export/all', {
+        responseType: 'blob',
+      });
+      saveAs(
+        new Blob([response.data], { type: 'text/csv' }),
+        'all_borrowed_books_last_month.csv'
+      );
+    } catch (error: any) {
+      setMessage(error.response.data.errors[0].msg);
+      setOpen(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -83,10 +116,17 @@ const Books = () => {
 
           <Button
             onClick={() => {
-              navigate('/books/create');
+              handleExportOverdue();
             }}
           >
-            Add Book
+            Export Overdue
+          </Button>
+          <Button
+            onClick={() => {
+              handleExportAll();
+            }}
+          >
+            Export All
           </Button>
         </div>
         <Typography variant="h4">All Books</Typography>
