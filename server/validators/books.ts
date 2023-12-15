@@ -23,7 +23,6 @@ const author = check('author')
   .isLength({ min: 1 })
   .withMessage('Author is required');
 
-//check quantity is a number and positive
 const quantity = check('quantity')
   .isInt({ min: 0 })
   .withMessage('Quantity must be a positive number');
