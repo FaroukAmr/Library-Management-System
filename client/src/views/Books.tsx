@@ -114,21 +114,22 @@ const Books = () => {
               variant="standard"
             />
           </div>
-
-          <Button
-            onClick={() => {
-              handleExportOverdue();
-            }}
-          >
-            Export Overdue
-          </Button>
-          <Button
-            onClick={() => {
-              handleExportAll();
-            }}
-          >
-            Export All
-          </Button>
+          <div>
+            <Button
+              onClick={() => {
+                handleExportOverdue();
+              }}
+            >
+              Export Overdue
+            </Button>
+            <Button
+              onClick={() => {
+                handleExportAll();
+              }}
+            >
+              Export All
+            </Button>
+          </div>
         </div>
         <Typography variant="h4">All Books</Typography>
         <BooksTable

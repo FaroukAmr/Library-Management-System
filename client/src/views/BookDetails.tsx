@@ -124,9 +124,9 @@ export const BookDetails = () => {
           </div>
           <br />
           <Typography variant="h4">Borrowers</Typography>
-          {borrowers.map((borrower) => {
+          {borrowers.map((borrower, i) => {
             return (
-              <div className="borrower">
+              <div key={borrower.username + i} className="borrower">
                 <Typography variant="h6">
                   Borrower: {borrower.username}
                 </Typography>
