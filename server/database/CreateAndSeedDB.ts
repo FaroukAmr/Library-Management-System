@@ -21,7 +21,9 @@ async function createDatabaseAndTables() {
     await adminPool.query(`CREATE DATABASE ${config.DB_DATABASE_NAME}`);
     console.log(`Database ${config.DB_DATABASE_NAME} created.`);
   } else {
-    console.log(`Database ${config.DB_DATABASE_NAME} already exists.`);
+    console.log(
+      `Database ${config.DB_DATABASE_NAME} already exists...Skipping`
+    );
   }
 
   await adminPool.end();
@@ -40,7 +42,7 @@ async function createDatabaseAndTables() {
   try {
     await pool.query(sql);
     seedDatabase().catch(console.error);
-    console.log('Tables created.');
+    console.log('Tables and indexes created.');
   } finally {
     await pool.end();
   }
